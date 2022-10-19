@@ -1,7 +1,11 @@
 # Basic echo ws server using tokio-tungstenite and jsonrpsee
 
-1- cargo build\
-2- cargo run --bin tungstenite_server 127.0.0.1:12345\
-3- cargo run --bin tungstenite_client ws://127.0.0.1:12345/
+
+- cargo build
+- cargo run --bin tungstenite_server
+- cargo run --bin tungstenite_client
+- cargo run --bin jsonrpsee_server
+- cargo run --bin jsonrpsee_client
+
 
 

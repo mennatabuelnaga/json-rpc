@@ -1,16 +1,13 @@
-// cargo run --bin tungstenite_client ws://127.0.0.1:12345/
+// cargo run --bin tungstenite_client
 
-use std::env;
 use futures_util::{future, pin_mut, StreamExt};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
 
 #[tokio::main]
 async fn main() {
-    let connect_addr =
-        env::args().nth(1).unwrap_or_else(|| panic!("this program requires at least one argument"));
-
-    let url = url::Url::parse(&connect_addr).unwrap();
+  
+    let url = url::Url::parse("ws://127.0.0.1:12345/").unwrap();
 
     let (stdin_tx, stdin_rx) = futures_channel::mpsc::unbounded();
     tokio::spawn(read_stdin(stdin_tx.clone()));

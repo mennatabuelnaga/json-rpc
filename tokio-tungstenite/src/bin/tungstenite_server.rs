@@ -1,15 +1,16 @@
-// cargo run --bin tungstenite_server 127.0.0.1:12345
+// cargo run --bin tungstenite_server
 
-use std::{env, io::Error};
+use std::io::Error;
 
 use futures_util::{future, StreamExt, TryStreamExt};
 use log::info;
 use tokio::net::{TcpListener, TcpStream};
+use tokio_tungstenite::tungstenite::Message;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     let _ = env_logger::try_init();
-    let addr = env::args().nth(1).unwrap_or_else(|| "127.0.0.1:8080".to_string());
+    let addr = "127.0.0.1:12345";
     info!("Listening on: {}", addr);
 
     // Create the event loop and TCP listener will accept connections on.
@@ -34,7 +35,6 @@ async fn accept_connection(stream: TcpStream) {
     info!("New WebSocket connection: {}", addr);
 
     let (write, read) = ws_stream.split();
-   
     // We should not forward messages other than text or binary.
     read.try_filter(|msg| future::ready(msg.is_text() || msg.is_binary()))
         .forward(write)
